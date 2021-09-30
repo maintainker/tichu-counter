@@ -3,7 +3,6 @@ body {
 }
 .counter-box {
   width: 484px;
-  height: 800px;
   background-color: white;
   position: absolute;
   top: 50%;
@@ -71,11 +70,28 @@ body {
   padding: 20px;
   text-align: center;
 }
+#boxes .box .round-point {
+  border: none;
+  width: calc(100% - 24px);
+  padding: 12px 8px;
+  margin: 8px 12px;
+  text-align: center;
+  box-sizing: border-box;
+}
 #history {
   height: 300px;
 }
 #boxes .box li:first-of-type {
   border-right: 1px solid #ddd;
+}
+#save {
+  border: none;
+  background: #0e0c32;
+  color: white;
+  font-size: 24px;
+  margin: 0;
+  width: 100%;
+  padding: 20px 0;
 }
 @media (max-width: 500px) {
   .counter-box {
