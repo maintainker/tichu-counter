@@ -3,7 +3,7 @@ body {
 }
 .counter-box {
   width: 484px;
-  height: 700px;
+  height: 800px;
   background-color: white;
   position: absolute;
   top: 50%;
@@ -33,7 +33,50 @@ body {
   background: none;
   color: #fff;
 }
-
+#title {
+  width: 100%;
+  background-color: #0e0c32;
+  text-align: center;
+  color: #fff;
+  padding: 3px 0;
+  font-size: 9px;
+}
+#boxes {
+  display: flex;
+  border-bottom: 1px solid #0e0c32;
+  flex-wrap: wrap;
+}
+#boxes .box {
+  width: 50%;
+}
+#boxes .box h3 {
+  text-align: center;
+  font-weight: normal;
+  margin-top: 12px;
+}
+#boxes .box .score {
+  text-align: center;
+  font-weight: bold;
+  font-size: 50px;
+  margin: 24px 0;
+}
+#boxes .box:first-of-type {
+  border-right: 1px solid #0e0c32;
+}
+#boxes ul.box {
+  display: flex;
+}
+#boxes .box li {
+  width: 50%;
+  padding: 20px;
+  text-align: center;
+}
+#history {
+  height: 300px;
+}
+#boxes .box li:first-of-type {
+  border-right: 1px solid #ddd;
+}
 @media (max-width: 500px) {
   .counter-box {
     width: 100%;
