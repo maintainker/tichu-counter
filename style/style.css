@@ -48,6 +48,10 @@ body {
 #boxes .box {
   width: 50%;
 }
+#boxes .box.point {
+  padding-right: 60px;
+  position: relative;
+}
 #boxes .box h3 {
   text-align: center;
   font-weight: normal;
@@ -110,9 +114,18 @@ body {
   background: red;
   top: 100%;
   left: 0;
-  padding: 7px 0;
+  padding: 8px 30px 8px 0;
+  z-index: 1;
 }
-#boxes .box .user .is-success {
+#boxes .box .user.active .close {
+  width: 30px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  background: white;
+  z-index: 1;
 }
 #boxes .box .user ul li.active {
   background: #2a6192;
@@ -125,6 +138,21 @@ body {
   margin: 8px 12px;
   text-align: center;
   box-sizing: border-box;
+}
+#boxes .box .win {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  background: rgb(255, 222, 131);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#boxes .box .win.active {
+  background: rgb(151, 125, 54);
+  color: white;
 }
 #history {
   height: 300px;

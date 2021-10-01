@@ -12,6 +12,8 @@ const init = (players) => {
   const resultB = document.querySelector("#B_result");
   const inputA = document.querySelector("#a_round");
   const inputB = document.querySelector("#b_round");
+  const winBtnA = document.querySelector("#a_win");
+  const winBtnB = document.querySelector("#b_win");
   //실제 게임내 현황판
   const realScore = [0, 0];
   const realRound = {
@@ -103,23 +105,54 @@ const init = (players) => {
         const largeLi = document.createElement("li");
         const smallLi = document.createElement("li");
         const isSuccess = document.createElement("div");
+        const close = document.createElement("div");
         userLi.classList.add("user");
         userName.classList.add("name");
         userName.innerText = players[i][j];
         largeLi.innerText = "Large";
         smallLi.innerText = "Small";
+        smallLi.classList.contains;
         isSuccess.classList.add("is-success");
         isSuccess.innerText = "Success";
+        close.innerHTML = `<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-times-circle fa-w-16 fa-5x"><path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z" class=""></path></svg>`;
+        close.classList.add("close");
+        userName.addEventListener("click", (e) => {
+          userLi.classList.toggle("active");
+        });
+        close.addEventListener("click", (e) => {
+          userLi.classList.remove("active");
+        });
+        largeLi.addEventListener("click", (e) => {
+          if (!e.target.classList.contains("active")) {
+            smallLi.classList.remove("active");
+            realRound.state[i][j].state = "large";
+            realRound.state[i][j].large = true;
+          } else {
+            realRound.state[i][j].state = "";
+            realRound.state[i][j].large = false;
+          }
+          realRound[i];
+          e.target.classList.toggle("active");
+        });
+        smallLi.addEventListener("click", (e) => {
+          if (!e.target.classList.contains("active")) {
+            largeLi.classList.remove("active");
+            realRound.state[i][j].state = "small";
+            realRound.state[i][j].small = true;
+          } else {
+            realRound.state[i][j].state = "";
+            realRound.state[i][j].small = false;
+          }
+          e.target.classList.toggle("active");
+        });
         hiddenUl.appendChild(largeLi);
         hiddenUl.appendChild(smallLi);
         userLi.appendChild(userName);
         userLi.appendChild(hiddenUl);
+        isSuccess.appendChild(close);
         userLi.appendChild(isSuccess);
         if (i % 2 === 0) {
-          if (j === 0) {
-            userLi.classList.add("active");
-            largeLi.classList.add("active");
-          }
+          if (j === 0) userLi.classList.add("active");
           userABox.appendChild(userLi);
         } else {
           userBBox.appendChild(userLi);
@@ -135,6 +168,8 @@ const init = (players) => {
     inputB.value = 0;
     renderingUsers();
     renderingHistory();
+    winBtnA.classList.remove("active");
+    winBtnB.classList.remove("active");
   };
   const onChange = (e) => {
     if (e.data !== null && e.data !== "0" && !Number(e.data)) {
@@ -146,7 +181,6 @@ const init = (players) => {
       realRound.score[0] = Number(e.target.value);
       realRound.score[1] = 100 - Number(e.target.value);
       inputB.value = realRound.score[1];
-      //티츄 점수카운팅은 나중에
     } else {
       realRound.score[1] = Number(e.target.value);
       realRound.score[0] = 100 - Number(e.target.value);
@@ -154,17 +188,54 @@ const init = (players) => {
     }
   };
   const onSave = () => {
+    //여기서 점수 체크
     history.push({ score: [...realRound.score] });
+
     realRound.score[0] = 0;
     realRound.score[1] = 0;
     inputA.value = realRound.score[0];
     inputB.value = realRound.score[1];
     renderingUsers();
     renderingHistory();
+    winBtnA.classList.remove("active");
+    winBtnB.classList.remove("active");
   };
 
   initializing();
-
+  winBtnA.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("active")) {
+      winBtnB.classList.remove("active");
+      inputA.value = 0;
+      inputB.value = 0;
+    }
+    e.target.classList.toggle("active");
+  });
+  winBtnB.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("active")) {
+      winBtnA.classList.remove("active");
+      inputA.value = 0;
+      inputB.value = 0;
+    }
+    e.target.classList.toggle("active");
+  });
+  inputA.addEventListener("focus", (e) => {
+    e.target.closest("input").value = "";
+  });
+  inputB.addEventListener("focus", (e) => {
+    e.target.closest("input").value = "";
+  });
+  inputA.addEventListener("focusout", (e) => {
+    e.target.closest("input").value =
+      e.target.closest("input").value === ""
+        ? "0"
+        : e.target.closest("input").value;
+  });
+  inputB.addEventListener("focusout", (e) => {
+    e.target.closest("input").value =
+      e.target.closest("input").value === ""
+        ? "0"
+        : e.target.closest("input").value;
+  });
   inputA.addEventListener("input", onChange);
   inputB.addEventListener("input", onChange);
   saveBtn.addEventListener("click", onSave);
