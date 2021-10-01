@@ -111,11 +111,15 @@ body {
   display: block;
   width: 100%;
   position: absolute;
-  background: red;
+  background: rgb(35, 30, 109);
+  color: white;
   top: 100%;
   left: 0;
   padding: 8px 30px 8px 0;
   z-index: 1;
+}
+#boxes .box .user.active .is-success.off {
+  background-color: brown;
 }
 #boxes .box .user.active .close {
   width: 30px;
@@ -126,6 +130,9 @@ body {
   padding: 5px;
   background: white;
   z-index: 1;
+}
+#boxes .box .user.active .close path {
+  fill: black;
 }
 #boxes .box .user ul li.active {
   background: #2a6192;

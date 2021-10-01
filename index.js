@@ -22,29 +22,21 @@ const init = (players) => {
       [
         {
           state: "",
-          large: false,
-          small: false,
-          win: false,
+          result: false,
         },
         {
           state: "",
-          large: false,
-          small: false,
-          win: false,
+          result: false,
         },
       ],
       [
         {
           state: "",
-          large: false,
-          small: false,
-          win: false,
+          result: false,
         },
         {
           state: "",
-          large: false,
-          small: false,
-          win: false,
+          result: false,
         },
       ],
     ],
@@ -126,10 +118,8 @@ const init = (players) => {
           if (!e.target.classList.contains("active")) {
             smallLi.classList.remove("active");
             realRound.state[i][j].state = "large";
-            realRound.state[i][j].large = true;
           } else {
             realRound.state[i][j].state = "";
-            realRound.state[i][j].large = false;
           }
           realRound[i];
           e.target.classList.toggle("active");
@@ -138,12 +128,20 @@ const init = (players) => {
           if (!e.target.classList.contains("active")) {
             largeLi.classList.remove("active");
             realRound.state[i][j].state = "small";
-            realRound.state[i][j].small = true;
           } else {
             realRound.state[i][j].state = "";
-            realRound.state[i][j].small = false;
           }
           e.target.classList.toggle("active");
+        });
+        isSuccess.addEventListener("click", (e) => {
+          const isBtn = e.target.classList.contains("is-success");
+          if (isBtn) {
+            let mention = "Success";
+            e.target.classList.toggle("off");
+            if (e.target.classList.contains("off")) mention = "Fail";
+            e.target.innerText = mention;
+            e.target.appendChild(close);
+          }
         });
         hiddenUl.appendChild(largeLi);
         hiddenUl.appendChild(smallLi);
@@ -189,6 +187,7 @@ const init = (players) => {
   };
   const onSave = () => {
     //여기서 점수 체크
+
     history.push({ score: [...realRound.score] });
 
     realRound.score[0] = 0;
@@ -207,6 +206,13 @@ const init = (players) => {
       winBtnB.classList.remove("active");
       inputA.value = 0;
       inputB.value = 0;
+      realRound.state[1][0].state = "";
+      realRound.state[1][1].state = "";
+      realRound.state[0][0].state = "win";
+      realRound.state[0][1].state = "win";
+    } else {
+      realRound.state[0][0].state = "";
+      realRound.state[0][1].state = "";
     }
     e.target.classList.toggle("active");
   });
@@ -215,6 +221,13 @@ const init = (players) => {
       winBtnA.classList.remove("active");
       inputA.value = 0;
       inputB.value = 0;
+      realRound.state[0][0].state = "";
+      realRound.state[0][1].state = "";
+      realRound.state[1][0].state = "win";
+      realRound.state[1][1].state = "win";
+    } else {
+      realRound.state[1][0].state = "";
+      realRound.state[1][1].state = "";
     }
     e.target.classList.toggle("active");
   });
