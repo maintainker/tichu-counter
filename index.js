@@ -16,31 +16,38 @@ const init = (players) => {
   const winBtnB = document.querySelector("#b_win");
   //실제 게임내 현황판
   const realScore = [0, 0];
-  const realRound = {
+  let realRound = {
     score: [0, 0],
     state: [
-      [
-        {
-          state: "",
-          result: false,
-        },
-        {
-          state: "",
-          result: false,
-        },
-      ],
-      [
-        {
-          state: "",
-          result: false,
-        },
-        {
-          state: "",
-          result: false,
-        },
-      ],
+      {
+        win: false,
+        user: [
+          {
+            state: "",
+            result: true,
+          },
+          {
+            state: "",
+            result: true,
+          },
+        ],
+      },
+      {
+        win: false,
+        user: [
+          {
+            state: "",
+            result: true,
+          },
+          {
+            state: "",
+            result: true,
+          },
+        ],
+      },
     ],
   };
+  const newRound = JSON.stringify(realRound);
   let history = [];
 
   const renderingHistory = () => {
@@ -117,9 +124,9 @@ const init = (players) => {
         largeLi.addEventListener("click", (e) => {
           if (!e.target.classList.contains("active")) {
             smallLi.classList.remove("active");
-            realRound.state[i][j].state = "large";
+            realRound.state[i].user[j].state = "large";
           } else {
-            realRound.state[i][j].state = "";
+            realRound.state[i].user[j].state = "";
           }
           realRound[i];
           e.target.classList.toggle("active");
@@ -127,9 +134,9 @@ const init = (players) => {
         smallLi.addEventListener("click", (e) => {
           if (!e.target.classList.contains("active")) {
             largeLi.classList.remove("active");
-            realRound.state[i][j].state = "small";
+            realRound.state[i].user[j].state = "small";
           } else {
-            realRound.state[i][j].state = "";
+            realRound.state[i].user[j].state = "";
           }
           e.target.classList.toggle("active");
         });
@@ -137,12 +144,14 @@ const init = (players) => {
           const isBtn = e.target.classList.contains("is-success");
           if (isBtn) {
             let mention = "Success";
-
+            let isSuccessed = true;
             e.target.classList.toggle("off");
             if (e.target.classList.contains("off")) {
               mention = "Fail";
-              realRound.state[i][j].result;
+              isSuccessed = false;
+              // realRound.state[i][j].result;
             }
+            realRound.state[i].user[j].result = isSuccessed;
             e.target.innerText = mention;
             e.target.appendChild(close);
           }
@@ -191,11 +200,40 @@ const init = (players) => {
   };
   const onSave = () => {
     //여기서 점수 체크
+    const nextScores = [...realScore];
+    // realRound[0][])
+    for (let i = 0; i < realRound.state.length; i++) {
+      if (realRound.state[i].win) nextScores[i] += 200;
+      for (let j = 0; j < realRound.state[i].user.length; j++) {
+        switch (realRound.state[i].user[j].state) {
+          case "large":
+            if (realRound.state[i].user[j].result) {
+              nextScores[i] += 200;
+            } else {
+              nextScores[i] -= 200;
+            }
+            break;
 
-    history.push({ score: [...realRound.score] });
+          case "small":
+            if (realRound.state[0].user[0].result) {
+              nextScores[i] += 100;
+            } else {
+              nextScores[i] -= 100;
+            }
+            break;
+          default:
+            break;
+        }
+      }
+    }
 
-    realRound.score[0] = 0;
-    realRound.score[1] = 0;
+    nextScores[0] += realRound.score[0];
+    nextScores[1] += realRound.score[1];
+    history.push({
+      score: nextScores,
+      state: JSON.parse(JSON.stringify(realRound.state)),
+    });
+    realRound = JSON.parse(newRound);
     inputA.value = realRound.score[0];
     inputB.value = realRound.score[1];
     renderingUsers();
@@ -210,13 +248,10 @@ const init = (players) => {
       winBtnB.classList.remove("active");
       inputA.value = 0;
       inputB.value = 0;
-      realRound.state[1][0].state = "";
-      realRound.state[1][1].state = "";
-      realRound.state[0][0].state = "win";
-      realRound.state[0][1].state = "win";
+      realRound.state[0].win = true;
+      realRound.state[1].win = false;
     } else {
-      realRound.state[0][0].state = "";
-      realRound.state[0][1].state = "";
+      realRound.state[0].win = false;
     }
     e.target.classList.toggle("active");
   });
@@ -225,13 +260,10 @@ const init = (players) => {
       winBtnA.classList.remove("active");
       inputA.value = 0;
       inputB.value = 0;
-      realRound.state[0][0].state = "";
-      realRound.state[0][1].state = "";
-      realRound.state[1][0].state = "win";
-      realRound.state[1][1].state = "win";
+      realRound.state[1].win = true;
+      realRound.state[0].win = false;
     } else {
-      realRound.state[1][0].state = "";
-      realRound.state[1][1].state = "";
+      realRound.state[1].win = false;
     }
     e.target.classList.toggle("active");
   });
