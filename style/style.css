@@ -65,10 +65,58 @@ body {
 #boxes ul.box {
   display: flex;
 }
-#boxes .box li {
+#boxes .box .user {
   width: 50%;
-  padding: 20px;
   text-align: center;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+#boxes .box .user .name {
+  width: 100%;
+  padding: 20px;
+}
+
+#boxes .box .user ul {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #5ab2ff;
+  display: none;
+}
+#boxes .box .user ul {
+  /* display: flex; */
+  display: none;
+}
+#boxes .box .user.active ul {
+  display: flex;
+}
+#boxes .box .user ul li {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0e0c32;
+}
+#boxes .box .user .is-success {
+  display: none;
+}
+#boxes .box .user.active .is-success {
+  display: block;
+  width: 100%;
+  position: absolute;
+  background: red;
+  top: 100%;
+  left: 0;
+  padding: 7px 0;
+}
+#boxes .box .user .is-success {
+}
+#boxes .box .user ul li.active {
+  background: #2a6192;
+  color: white;
 }
 #boxes .box .round-point {
   border: none;
