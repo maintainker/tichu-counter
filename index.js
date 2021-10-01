@@ -137,8 +137,12 @@ const init = (players) => {
           const isBtn = e.target.classList.contains("is-success");
           if (isBtn) {
             let mention = "Success";
+
             e.target.classList.toggle("off");
-            if (e.target.classList.contains("off")) mention = "Fail";
+            if (e.target.classList.contains("off")) {
+              mention = "Fail";
+              realRound.state[i][j].result;
+            }
             e.target.innerText = mention;
             e.target.appendChild(close);
           }
