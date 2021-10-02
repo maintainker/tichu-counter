@@ -12,7 +12,9 @@ const resetFunc = (resetUser, finHistory) => {
   // 여기에 리셋 되도록 하는거 넣으면 됩니다.
   console.log(lastHistory);
 };
-
+const winFunc = (finHistory) => {
+  console.log(finHistory);
+};
 const init = (users) => {
   let players = [...users];
   const resetBtn = document.querySelector("#header .reset");
@@ -109,6 +111,7 @@ const init = (users) => {
     ) {
       const winUsers = totalScore[0] >= 1000 ? users[0] : users[1];
       alert(`${winUsers[0]}, ${winUsers[1]}팀 승리!`);
+      winFunc(JSON.parse(JSON.stringify(history)));
     }
   };
   const renderingUsers = () => {
@@ -254,7 +257,6 @@ const init = (users) => {
       score: nextScores,
       state: JSON.parse(JSON.stringify(realRound.state)),
     });
-    console.log(history);
     realRound = JSON.parse(newRound);
     inputA.value = realRound.score[0];
     inputB.value = realRound.score[1];
