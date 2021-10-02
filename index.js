@@ -1,8 +1,20 @@
+//첫 유저 이름
 const playerA = ["김소라", "구민근"];
 const playerB = ["김태진", "정성우"];
+let lastHistory = []; // 리셋 버튼 눌릴때마다 히스토리 들어가도록 해놨습니다.
+const resetFunc = (resetUser, finHistory) => {
+  // 유저이름 넣으면 리셋버튼 눌릴때 변경 됩니다.
+  resetUser([
+    ["설영환", "코콰"],
+    ["장한별", "민경배"],
+  ]);
+  lastHistory = finHistory;
+  // 여기에 리셋 되도록 하는거 넣으면 됩니다.
+  console.log(lastHistory);
+};
 
-const init = (players) => {
-  const [playerA, playerB] = players;
+const init = (users) => {
+  let players = [...users];
   const resetBtn = document.querySelector("#header .reset");
   const saveBtn = document.querySelector("#save");
   const userABox = document.querySelector("#userA");
@@ -47,7 +59,6 @@ const init = (players) => {
       },
     ],
   };
-  const newRound = JSON.stringify(realRound);
   let history = [];
 
   const renderingHistory = () => {
@@ -92,6 +103,13 @@ const init = (players) => {
     historyBox.appendChild(historyUl);
     resultA.innerText = totalScore[0];
     resultB.innerText = totalScore[1];
+    if (
+      totalScore[0] !== totalScore[1] &&
+      (totalScore[0] >= 1000 || totalScore[1] >= 1000)
+    ) {
+      const winUsers = totalScore[0] >= 1000 ? users[0] : users[1];
+      alert(`${winUsers[0]}, ${winUsers[1]}팀 승리!`);
+    }
   };
   const renderingUsers = () => {
     userABox.innerHTML = "";
@@ -163,7 +181,6 @@ const init = (players) => {
         isSuccess.appendChild(close);
         userLi.appendChild(isSuccess);
         if (i % 2 === 0) {
-          if (j === 0) userLi.classList.add("active");
           userABox.appendChild(userLi);
         } else {
           userBBox.appendChild(userLi);
@@ -171,6 +188,10 @@ const init = (players) => {
       }
     }
   };
+  const resetUser = (newPlayers) => {
+    players = newPlayers;
+  };
+  const newRound = JSON.stringify(realRound);
   //initializing
   const initializing = () => {
     resultA.innerText = realScore[0];
@@ -233,6 +254,7 @@ const init = (players) => {
       score: nextScores,
       state: JSON.parse(JSON.stringify(realRound.state)),
     });
+    console.log(history);
     realRound = JSON.parse(newRound);
     inputA.value = realRound.score[0];
     inputB.value = realRound.score[1];
@@ -288,5 +310,16 @@ const init = (players) => {
   inputA.addEventListener("input", onChange);
   inputB.addEventListener("input", onChange);
   saveBtn.addEventListener("click", onSave);
+  resetBtn.addEventListener("click", () => {
+    if (window.confirm("진짜 리셋하시겠습니까?")) {
+      const finHistory = history;
+      resetFunc(resetUser, finHistory);
+      history = [];
+      realRound = JSON.parse(newRound);
+      realScore[0] = 0;
+      realScore[1] = 0;
+      initializing();
+    }
+  });
 };
 init([playerA, playerB]);
